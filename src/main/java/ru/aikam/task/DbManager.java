@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import ru.aikam.task.io.FileReader;
+import ru.aikam.task.json.Criterion;
+import ru.aikam.task.json.CriterionDeserializer;
 import ru.aikam.task.json.input.LastNameCriterion;
 import ru.aikam.task.json.input.ProductNameCriterion;
-import ru.aikam.task.json.input.SearchInputJson;
+import ru.aikam.task.json.input.SearchOperation;
 import ru.aikam.task.service.ArgsParser;
 
 import java.nio.file.Path;
@@ -30,6 +32,19 @@ public class DbManager implements DbManagerInterface {
         FileReader fileReader = new FileReader(this);
         String userJson = fileReader.getContentFromFile(inputFilePath);
 
+        SearchOperation searchOperation = new SearchOperation();
+        searchOperation.addCriterion(new LastNameCriterion("ff"));
+        searchOperation.addCriterion(new ProductNameCriterion("ff", 7));
+
+        Gson gsonS = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+        String json = gsonS.toJson(searchOperation);
+
+        Gson gsonD = new GsonBuilder()
+                .registerTypeAdapter(Criterion.class, new CriterionDeserializer())
+                .create();
+        SearchOperation searchInput = gsonD.fromJson(json, SearchOperation.class);
     }
 
     public static void main(String[] args) {
