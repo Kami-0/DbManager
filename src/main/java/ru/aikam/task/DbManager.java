@@ -1,6 +1,8 @@
 package ru.aikam.task;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.aikam.task.entity.input.SearchOperation;
+import ru.aikam.task.entity.input.StatOperation;
 import ru.aikam.task.io.FileReader;
 import ru.aikam.task.service.ArgsParser;
 
@@ -20,7 +22,7 @@ public class DbManager implements DbManagerInterface {
 
     public DbManager(String[] args) {
         String[] argv = new String[3];
-        argv[0] = "stat";
+        argv[0] = "search";
         argv[1] = "C:\\Users\\Kami\\Проекты\\DbManager\\test.json";
         argv[2] = "test2.json";
         ArgsParser argsParser = new ArgsParser(argv, this);
@@ -31,6 +33,14 @@ public class DbManager implements DbManagerInterface {
         FileReader fileReader = new FileReader(this);
         String requestJson = fileReader.getContentFromFile(inputFilePath);
 
+        CriterionHandler criterionHandler = new CriterionHandler();
+        switch (transactionType) {
+            case SEARCH:
+                criterionHandler.handleSearchOperation(SearchOperation.fromJson(requestJson));
+                break;
+            case STAT:
+                criterionHandler.handleStatOperation(StatOperation.fromJson(requestJson));
+        }
     }
 
     public static void main(String[] args) {
