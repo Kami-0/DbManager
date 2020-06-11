@@ -1,4 +1,4 @@
-package ru.aikam.task.json;
+package ru.aikam.task.entity;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -8,6 +8,8 @@ import java.nio.file.Path;
 
 /**
  * Класс для проверки валидности пути
+ *
+ * @author Kami
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PathValidator {

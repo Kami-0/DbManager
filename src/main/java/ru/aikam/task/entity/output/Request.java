@@ -1,6 +1,6 @@
-package ru.aikam.task.json.output;
+package ru.aikam.task.entity.output;
 
-import ru.aikam.task.json.Criterion;
+import ru.aikam.task.entity.Criterion;
 
 import java.util.LinkedList;
 import java.util.List;

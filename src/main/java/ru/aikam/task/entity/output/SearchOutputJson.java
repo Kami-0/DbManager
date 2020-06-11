@@ -1,4 +1,4 @@
-package ru.aikam.task.json.output;
+package ru.aikam.task.entity.output;
 
 import java.util.LinkedList;
 import java.util.List;

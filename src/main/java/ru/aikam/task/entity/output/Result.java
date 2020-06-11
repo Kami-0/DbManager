@@ -1,4 +1,4 @@
-package ru.aikam.task.json.output;
+package ru.aikam.task.entity.output;
 
 public class Result {
     private String lastName;

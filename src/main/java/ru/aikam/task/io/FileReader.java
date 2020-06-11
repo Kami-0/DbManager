@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+/**
+ * Класс для чтения из файла
+ *
+ * @author Kami
+ */
 @Slf4j
 public final class FileReader {
     private final DbManagerInterface dbManager;
@@ -15,6 +20,12 @@ public final class FileReader {
         this.dbManager = dbManager;
     }
 
+    /**
+     * Извлекает содержимое файла
+     *
+     * @param path путь до файла
+     * @return содержимое файла
+     */
     public String getContentFromFile(Path path) {
         if (PathValidator.isNotValidFilePath(path)) {
             log.error("Invalid path to input file: {}", path);
@@ -29,6 +40,7 @@ public final class FileReader {
             }
             while (scanner.hasNextLine()) {
                 stringBuilder.append(scanner.nextLine());
+                stringBuilder.append(System.lineSeparator());
             }
         } catch (IOException ex) {
             log.error("Input file unavailable ", ex);

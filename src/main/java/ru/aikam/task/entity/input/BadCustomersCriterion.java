@@ -1,8 +1,8 @@
-package ru.aikam.task.json.input;
+package ru.aikam.task.entity.input;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.aikam.task.json.Criterion;
+import ru.aikam.task.entity.Criterion;
 
 @Getter
 @Setter

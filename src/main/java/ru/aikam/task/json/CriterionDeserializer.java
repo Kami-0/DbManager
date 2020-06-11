@@ -1,13 +1,19 @@
 package ru.aikam.task.json;
 
 import com.google.gson.*;
-import ru.aikam.task.json.input.BadCustomersCriterion;
-import ru.aikam.task.json.input.LastNameCriterion;
-import ru.aikam.task.json.input.ProductExpensesCriterion;
-import ru.aikam.task.json.input.ProductNameCriterion;
+import ru.aikam.task.entity.Criterion;
+import ru.aikam.task.entity.input.BadCustomersCriterion;
+import ru.aikam.task.entity.input.LastNameCriterion;
+import ru.aikam.task.entity.input.ProductExpensesCriterion;
+import ru.aikam.task.entity.input.ProductNameCriterion;
 
 import java.lang.reflect.Type;
 
+/**
+ * Класс для десериализации класса Criterion на дочернии классы
+ *
+ * @author Kami
+ */
 public class CriterionDeserializer implements JsonDeserializer<Criterion> {
     @Override
     public Criterion deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
