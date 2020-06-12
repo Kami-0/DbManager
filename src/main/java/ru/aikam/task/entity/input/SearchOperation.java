@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Класс-сущность запроса от пользователя типа search
  *
- * @author Kami
+ * @author Daniil Makarov (Kami)
  */
 @Getter
 @Setter

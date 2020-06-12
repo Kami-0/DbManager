@@ -1,7 +1,7 @@
 package ru.aikam.task.io;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.aikam.task.DbManagerInterface;
+import ru.aikam.task.app.DbManagerInterface;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * Класс для чтения из файла
  *
- * @author Kami
+ * @author Daniil Makarov (Kami)
  */
 @Slf4j
 public final class FileReader {
@@ -28,23 +28,20 @@ public final class FileReader {
      */
     public String getContentFromFile(Path path) {
         if (PathValidator.isNotValidFilePath(path)) {
-            log.error("Invalid path to input file: {}", path);
-            dbManager.onRuntimeException("Invalid path to input file");
+            dbManager.onRuntimeException("Invalid path to input file " + path);
         }
         StringBuilder stringBuilder = new StringBuilder();
         try {
             Scanner scanner = new Scanner(path);
             if (!scanner.hasNext()) {
-                log.error("Empty input file: {}", path);
-                dbManager.onRuntimeException("Empty input file");
+                dbManager.onRuntimeException("Empty input file " + path);
             }
             while (scanner.hasNextLine()) {
                 stringBuilder.append(scanner.nextLine());
                 stringBuilder.append(System.lineSeparator());
             }
         } catch (IOException ex) {
-            log.error("Input file unavailable ", ex);
-            dbManager.onRuntimeException("Input file unavailable");
+            dbManager.onRuntimeException("Input file unavailable " + path);
         }
         return stringBuilder.toString();
     }

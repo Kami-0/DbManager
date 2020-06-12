@@ -9,7 +9,7 @@ import java.nio.file.Path;
 /**
  * Класс для проверки валидности пути
  *
- * @author Kami
+ * @author Daniil Makarov (Kami)
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PathValidator {

@@ -2,13 +2,18 @@ package ru.aikam.task.service;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import ru.aikam.task.DbManagerInterface;
-import ru.aikam.task.TransactionType;
+import ru.aikam.task.app.DbManagerInterface;
+import ru.aikam.task.app.TransactionType;
 import ru.aikam.task.io.PathValidator;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Класс для парсинга входных параметров в класс типа DbManagerInterface
+ *
+ * @author Daniil Makarov (Kami)
+ */
 @Slf4j
 public final class ArgsParser {
     private final static int ARGS_NUMBER = 3;
@@ -45,7 +50,7 @@ public final class ArgsParser {
         String userOutputPathString = args[OUTPUT_FILE_INDEX];
         Path userOutputPath = Paths.get(userOutputPathString).normalize();
         boolean outputPathIsValid = PathValidator.isValidFilePath(userOutputPath);
-        if (!inputPathIsValid) {
+        if (!outputPathIsValid) {
             dbManager.onInputValueException("Incorrect output file: " + userOutputPathString);
         }
         this.outputFilePath = userOutputPath;

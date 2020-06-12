@@ -10,7 +10,7 @@ import ru.aikam.task.entity.input.SearchOperation;
 /**
  * Класс десериализующий строку формата json в класс SearchOperation
  *
- * @author Kami
+ * @author Daniil Makarov (Kami)
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SearchOperationDeserializer {

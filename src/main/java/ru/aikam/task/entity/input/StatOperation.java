@@ -8,7 +8,7 @@ import ru.aikam.task.json.StatOperationDeserializer;
 /**
  * Класс-сущность запроса от пользователя типа stat
  *
- * @author Kami
+ * @author Daniil Makarov (Kami)
  */
 @Getter
 @Setter

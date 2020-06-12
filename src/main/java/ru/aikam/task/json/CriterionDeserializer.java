@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 /**
  * Класс для десериализации класса Criterion на дочернии классы
  *
- * @author Kami
+ * @author Daniil Makarov (Kami)
  */
 public class CriterionDeserializer implements JsonDeserializer<Criterion> {
     @Override

@@ -7,7 +7,7 @@ import ru.aikam.task.entity.input.SearchOperation;
 /**
  * Класс сериализующий класс SearchOperation в строку формата json
  *
- * @author Kami
+ * @author Daniil Makarov (Kami)
  */
 public class SearchOperationSerialization {
     /**

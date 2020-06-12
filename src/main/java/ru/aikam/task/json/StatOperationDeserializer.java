@@ -8,7 +8,7 @@ import ru.aikam.task.entity.input.StatOperation;
 /**
  * Класс десериализующий строку формата json в класс StatOperation
  *
- * @author Kami
+ * @author Daniil Makarov (Kami)
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StatOperationDeserializer {
