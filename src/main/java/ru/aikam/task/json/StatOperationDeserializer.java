@@ -1,6 +1,6 @@
 package ru.aikam.task.json;
 
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ru.aikam.task.entity.input.StatOperationCriterion;
@@ -17,6 +17,6 @@ public final class StatOperationDeserializer {
      * @return экземпляр класса StatOperation
      */
     public static StatOperationCriterion fromJson(String json) {
-        return new Gson().fromJson(json, StatOperationCriterion.class);
+        return new GsonBuilder().setDateFormat("yyyy-MM-dd").create().fromJson(json, StatOperationCriterion.class);
     }
 }

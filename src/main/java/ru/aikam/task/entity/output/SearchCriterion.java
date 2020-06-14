@@ -16,11 +16,8 @@ import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
-public class SearchCriterionRequest {
+public class SearchCriterion {
     private Criterion criterion;
     private List<SearchResult> results = new LinkedList<>();
 
-    public void addResult(SearchResult searchResult) {
-        results.add(searchResult);
-    }
 }

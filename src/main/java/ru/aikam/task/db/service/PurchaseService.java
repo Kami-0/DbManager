@@ -8,6 +8,7 @@ import ru.aikam.task.db.model.Product;
 import ru.aikam.task.db.model.Purchase;
 import ru.aikam.task.entity.output.SearchResult;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public class PurchaseService {
-    private PurchaseDao purchaseDao = new PurchaseDao();
+    private final PurchaseDao purchaseDao = new PurchaseDao();
 
     /**
      * Возращает из БД список всех покупателей купивших этот товар не менее, чем
@@ -89,5 +90,9 @@ public class PurchaseService {
                 .limit(badCustomersNumber)
                 .forEach(x -> searchResults.add(CustomerToSearchResultAdapter.valueOf(x.getKey())));
         return searchResults;
+    }
+
+    public List<Purchase> findAllInDateRange(Date startDate, Date endDate) {
+        return purchaseDao.findAllInDateRange(startDate, endDate);
     }
 }

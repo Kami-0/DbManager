@@ -7,6 +7,7 @@ import ru.aikam.task.db.model.Product;
 import ru.aikam.task.db.model.Purchase;
 import ru.aikam.task.db.util.HibernateSessionFactoryUtil;
 
+import java.sql.Date;
 import java.util.List;
 
 public class PurchaseDao {
@@ -20,6 +21,13 @@ public class PurchaseDao {
     public List<Purchase> findAllPurchase() {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Criteria purchaseCriteria = session.createCriteria(Purchase.class);
+        return (List<Purchase>) purchaseCriteria.list();
+    }
+
+    public List<Purchase> findAllInDateRange(Date startDate, Date endDate) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Criteria purchaseCriteria = session.createCriteria(Purchase.class);
+        purchaseCriteria.add(Restrictions.between("date", startDate, endDate));
         return (List<Purchase>) purchaseCriteria.list();
     }
 }

@@ -2,6 +2,7 @@ package ru.aikam.task.entity.output;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,12 +19,13 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public class SearchOutputRequest implements SerializableInJson {
+@AllArgsConstructor
+public class SearchResponse implements SerializableInJson {
     private String type = "search";
-    private List<SearchCriterionRequest> result = new LinkedList<>();
+    private List<SearchCriterion> result = new LinkedList<>();
 
-    public void addRequest(SearchCriterionRequest searchCriterionRequest) {
-        result.add(searchCriterionRequest);
+    public void addRequest(SearchCriterion searchCriterion) {
+        result.add(searchCriterion);
     }
 
     @Override

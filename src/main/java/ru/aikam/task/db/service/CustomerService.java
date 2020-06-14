@@ -15,7 +15,7 @@ import java.util.List;
  */
 @NoArgsConstructor
 public class CustomerService {
-    private CustomerDao customerDao = new CustomerDao();
+    private final CustomerDao customerDao = new CustomerDao();
 
     /**
      * Возращает из БД список всех покупателей с переданной в параметры фамилией

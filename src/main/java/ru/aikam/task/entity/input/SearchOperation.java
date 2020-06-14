@@ -3,6 +3,7 @@ package ru.aikam.task.entity.input;
 import lombok.Getter;
 import lombok.Setter;
 import ru.aikam.task.entity.Criterion;
+import ru.aikam.task.entity.DeserializableInJson;
 import ru.aikam.task.json.SearchOperationDeserializer;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public final class SearchOperation {
+public final class SearchOperation implements DeserializableInJson {
     private List<Criterion> criteria = new ArrayList<>();
 
     /**

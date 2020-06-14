@@ -11,7 +11,7 @@ import ru.aikam.task.db.model.Product;
  */
 @NoArgsConstructor
 public class ProductService {
-    private ProductDao productDao = new ProductDao();
+    private final ProductDao productDao = new ProductDao();
 
     /**
      * Ищет продукт по его названию в бд

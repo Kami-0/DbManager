@@ -3,7 +3,10 @@ package ru.aikam.task.entity.input;
 import lombok.Getter;
 import lombok.Setter;
 import ru.aikam.task.entity.Criterion;
+import ru.aikam.task.entity.DeserializableInJson;
 import ru.aikam.task.json.StatOperationDeserializer;
+
+import java.sql.Date;
 
 /**
  * Класс-сущность запроса от пользователя типа stat
@@ -12,15 +15,9 @@ import ru.aikam.task.json.StatOperationDeserializer;
  */
 @Getter
 @Setter
-public final class StatOperationCriterion extends Criterion {
-    private String startDate;
-    private String endDate;
-
-    public StatOperationCriterion(String startDate, String endDate) {
-        super.type = "stat";
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
+public final class StatOperationCriterion extends Criterion implements DeserializableInJson {
+    private Date startDate;
+    private Date endDate;
 
     /**
      * Метод десериализующий строку формата json в класс StatOperation
@@ -34,6 +31,6 @@ public final class StatOperationCriterion extends Criterion {
 
     @Override
     public boolean isIncomplete() {
-        return false;
+        return startDate == null || endDate == null;
     }
 }

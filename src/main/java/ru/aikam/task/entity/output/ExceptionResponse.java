@@ -13,11 +13,11 @@ import ru.aikam.task.entity.SerializableInJson;
  */
 @Setter
 @Getter
-public class ExceptionRequest implements SerializableInJson {
+public class ExceptionResponse implements SerializableInJson {
     private String type = "error";
     private String message;
 
-    public ExceptionRequest(String message) {
+    public ExceptionResponse(String message) {
         this.message = message;
     }
 

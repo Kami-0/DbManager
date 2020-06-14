@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
  *
  * @author Daniil Makarov (Kami)
  */
-public class CriterionDeserializer implements JsonDeserializer<Criterion> {
+class CriterionDeserializer implements JsonDeserializer<Criterion> {
     @Override
     public Criterion deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         JsonObject jsonObject = jsonElement.getAsJsonObject();

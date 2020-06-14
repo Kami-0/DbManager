@@ -33,8 +33,4 @@ public class Product {
         purchases = new ArrayList<>();
     }
 
-    public void addPurchase(Purchase purchase) {
-        purchase.setProductId(this);
-        purchases.add(purchase);
-    }
 }
