@@ -3,7 +3,7 @@ package ru.aikam.task.app;
 import lombok.extern.slf4j.Slf4j;
 import ru.aikam.task.api.CriterionHandler;
 import ru.aikam.task.entity.input.SearchOperation;
-import ru.aikam.task.entity.input.StatOperation;
+import ru.aikam.task.entity.input.StatOperationCriterion;
 import ru.aikam.task.entity.output.ExceptionRequest;
 import ru.aikam.task.entity.output.SearchOutputRequest;
 import ru.aikam.task.io.FileReader;
@@ -20,7 +20,6 @@ import java.nio.file.Path;
 @Slf4j
 public class DbManager implements DbManagerInterface {
     private static final int ERROR_STATUS = 0;
-    private final TransactionType transactionType;
     private final Path inputFilePath;
     private final Path outputFilePath;
 
@@ -30,24 +29,42 @@ public class DbManager implements DbManagerInterface {
         argv[1] = "C:\\Users\\Kami\\Проекты\\DbManager\\test.json";
         argv[2] = "test2.json";
         ArgsParser argsParser = new ArgsParser(argv, this);
-        this.transactionType = argsParser.getTransactionType();
+
         this.inputFilePath = argsParser.getInputFilePath();
         this.outputFilePath = argsParser.getOutputFilePath();
 
+        TransactionType transactionType = argsParser.getTransactionType();
         String requestJson = getUserJson();
-        CriterionHandler criterionHandler = new CriterionHandler();
-        switch (transactionType) {
-            case SEARCH:
-                SearchOutputRequest request = criterionHandler.handleSearchOperation(SearchOperation.fromJson(requestJson));
-                writeResult(request.toJson());
-                break;
-            case STAT:
-                criterionHandler.handleStatOperation(StatOperation.fromJson(requestJson));
-        }
+        handleJsonTransaction(requestJson, transactionType);
     }
 
     public static void main(String[] args) {
         new DbManager(args);
+    }
+
+    public void handleJsonTransaction(String json, TransactionType transactionType) {
+        CriterionHandler criterionHandler = new CriterionHandler();
+        switch (transactionType) {
+            case SEARCH:
+                try {
+                    SearchOperation searchOperation = SearchOperation.fromJson(json);
+                    //Проверяем на целостность десериализованный запрос
+                    if (searchOperation.isEmptyCriteriaList()) {
+                        onRuntimeException("Request empty or incorrect format");
+                    }
+                    //Проверяем на целостность десериализованные критерие в запросе
+                    if (searchOperation.isIncompleteCriteriaList()) {
+                        onRuntimeException("Criteria in search query are corrupted");
+                    }
+                    SearchOutputRequest request = criterionHandler.handleSearchOperation(searchOperation);
+                    writeResult(request.toJson());
+                    break;
+                } catch (Exception ex) {
+                    onRuntimeException("No criterion type");
+                }
+            case STAT:
+                criterionHandler.handleStatOperation(StatOperationCriterion.fromJson(json));
+        }
     }
 
     /**

@@ -8,11 +8,16 @@ import ru.aikam.task.entity.Criterion;
 @Setter
 public final class ProductNameCriterion extends Criterion {
     private final String productName;
-    private final int minTimes;
+    private final Integer minTimes;
 
-    public ProductNameCriterion(String productName, int minTimes) {
+    public ProductNameCriterion(String productName, Integer minTimes) {
         this.productName = productName;
         this.minTimes = minTimes;
         super.type = "productName";
+    }
+
+    @Override
+    public boolean isIncomplete() {
+        return productName == null || minTimes == null;
     }
 }

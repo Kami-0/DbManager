@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,6 +17,7 @@ public class Product {
     private int id;
     @Getter
     @Setter
+    @Column(name = "product_name")
     private String productName;
     @Getter
     @Setter
@@ -28,5 +30,11 @@ public class Product {
     public Product(String productName, int expense) {
         this.productName = productName;
         this.expense = expense;
+        purchases = new ArrayList<>();
+    }
+
+    public void addPurchase(Purchase purchase) {
+        purchase.setProductId(this);
+        purchases.add(purchase);
     }
 }

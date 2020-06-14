@@ -13,4 +13,9 @@ public final class LastNameCriterion extends Criterion {
         this.lastName = lastName;
         super.type = "lastName";
     }
+
+    @Override
+    public boolean isIncomplete() {
+        return lastName == null;
+    }
 }

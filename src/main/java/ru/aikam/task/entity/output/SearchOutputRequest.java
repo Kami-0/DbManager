@@ -33,4 +33,5 @@ public class SearchOutputRequest implements SerializableInJson {
                 .create();
         return gson.toJson(this);
     }
+
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 import ru.aikam.task.entity.Criterion;
 import ru.aikam.task.json.SearchOperationDeserializer;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 public final class SearchOperation {
-    private List<Criterion> criteria = new LinkedList<>();
+    private List<Criterion> criteria = new ArrayList<>();
 
     /**
      * Добавляет критерий в список критериев запроса search
@@ -35,5 +35,28 @@ public final class SearchOperation {
      */
     public static SearchOperation fromJson(String json) {
         return SearchOperationDeserializer.fromJson(json);
+    }
+
+    /**
+     * Метод проверяющий на пустоту список критериев
+     *
+     * @return true если список скритериев пустой, false если не пустой
+     */
+    public boolean isEmptyCriteriaList() {
+        return criteria.isEmpty();
+    }
+
+    /**
+     * Метод проверяющий на повреждения все критерии во время десериализации
+     *
+     * @return true если хоть один критерий поврежден, false если все целы
+     */
+    public boolean isIncompleteCriteriaList() {
+        return criteria.stream().anyMatch(criterion -> {
+            if (criterion == null) {
+                return true;
+            }
+            return criterion.isIncomplete();
+        });
     }
 }

@@ -29,7 +29,7 @@ public class CriterionDeserializer implements JsonDeserializer<Criterion> {
             case "productName":
                 return (ProductNameCriterion) jsonDeserializationContext.deserialize(jsonObject, ProductNameCriterion.class);
             default:
-                return new Criterion();
+                return null;
         }
     }
 }

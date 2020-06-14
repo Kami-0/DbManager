@@ -15,6 +15,8 @@ import ru.aikam.task.entity.input.SearchOperation;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SearchOperationDeserializer {
     /**
+     * Метод десериализующий json в класс
+     *
      * @param json строка формата json
      * @return экземпляр класса SearchOperation
      */

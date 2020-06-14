@@ -29,5 +29,4 @@ public class CustomerService {
                 .forEach(customer -> searchResults.add(CustomerToSearchResultAdapter.valueOf(customer)));
         return searchResults;
     }
-
 }

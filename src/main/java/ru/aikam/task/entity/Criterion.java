@@ -10,6 +10,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Criterion {
+public abstract class Criterion {
     public String type;
+
+    public abstract boolean isIncomplete();
 }

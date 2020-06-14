@@ -12,11 +12,11 @@ import ru.aikam.task.json.StatOperationDeserializer;
  */
 @Getter
 @Setter
-public final class StatOperation extends Criterion {
+public final class StatOperationCriterion extends Criterion {
     private String startDate;
     private String endDate;
 
-    public StatOperation(String startDate, String endDate) {
+    public StatOperationCriterion(String startDate, String endDate) {
         super.type = "stat";
         this.startDate = startDate;
         this.endDate = endDate;
@@ -28,7 +28,12 @@ public final class StatOperation extends Criterion {
      * @param json строка json
      * @return экземпляр класса на основе json
      */
-    public static StatOperation fromJson(String json) {
+    public static StatOperationCriterion fromJson(String json) {
         return StatOperationDeserializer.fromJson(json);
+    }
+
+    @Override
+    public boolean isIncomplete() {
+        return false;
     }
 }
