@@ -49,10 +49,10 @@ public final class ArgsParser {
 
         String userOutputPathString = args[OUTPUT_FILE_INDEX];
         Path userOutputPath = Paths.get(userOutputPathString).normalize();
-        boolean outputPathIsValid = PathValidator.isValidFilePath(userOutputPath);
-        if (!outputPathIsValid) {
-            dbManager.onInputValueException("Incorrect output file: " + userOutputPathString);
-        }
+//        boolean outputPathIsValid = PathValidator.isValidFilePath(userOutputPath);
+//        if (!outputPathIsValid) {
+//            dbManager.onInputValueException("Incorrect output file: " + userOutputPathString);
+//        }
         this.outputFilePath = userOutputPath;
         log.info("Parsing input parameters has ended");
     }

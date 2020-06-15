@@ -2,6 +2,7 @@ package ru.aikam.task.app;
 
 import com.google.gson.JsonSyntaxException;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.service.spi.ServiceException;
 import ru.aikam.task.api.CriterionHandler;
 import ru.aikam.task.entity.input.SearchOperation;
 import ru.aikam.task.entity.input.StatOperationCriterion;
@@ -35,6 +36,7 @@ public class DbManager implements DbManagerInterface {
         TransactionType transactionType = argsParser.getTransactionType();
         String requestJson = getUserJson();
         handleJsonTransaction(requestJson, transactionType);
+        finishExecutionApplication();
     }
 
     public static void main(String[] args) {
@@ -62,7 +64,9 @@ public class DbManager implements DbManagerInterface {
                     SearchResponse response = criterionHandler.handleSearchOperation(searchOperation);
                     writeResult(response.toJson());
                     break;
-                } catch (Exception ex) {
+                } catch (ServiceException ex) {
+                    onRuntimeException("Database not available");
+                } catch (NullPointerException ex) {
                     onRuntimeException("No criterion type");
                 }
             case STAT:
@@ -77,6 +81,8 @@ public class DbManager implements DbManagerInterface {
                     onRuntimeException(ex.getMessage());
                 } catch (JsonSyntaxException ex) {
                     onRuntimeException("Wrong date format");
+                } catch (ServiceException ex) {
+                    onRuntimeException("Database not available");
                 }
                 break;
         }
@@ -114,7 +120,7 @@ public class DbManager implements DbManagerInterface {
     public void onInputValueException(String message) {
         System.out.println(message);
         log.error(message);
-        System.exit(ERROR_STATUS);
+        finishExecutionApplication();
     }
 
     /**
@@ -126,6 +132,14 @@ public class DbManager implements DbManagerInterface {
     public void onRuntimeException(String message) {
         log.error(message);
         writeResult(new ExceptionResponse(message).toJson());
+        finishExecutionApplication();
+    }
+
+    /**
+     * Метод заканчивает приложение с сигналом для пользователя
+     */
+    private void finishExecutionApplication() {
+        System.out.println("Finish..");
         System.exit(ERROR_STATUS);
     }
 }
