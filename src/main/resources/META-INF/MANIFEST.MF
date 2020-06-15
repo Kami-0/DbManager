@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: 15.06.2020(Makarov Daniil)
+Main-Class: ru.aikam.task.app.DbManager
