@@ -76,7 +76,8 @@ public class CriterionHandler {
         if (avgExpensesOptional.isPresent()) {
             statResponse.setAvgExpenses(avgExpensesOptional.getAsDouble());
         } else {
-            statResponse.setAvgExpenses(0);
+            int defaultAvgExpenses = 0;
+            statResponse.setAvgExpenses(defaultAvgExpenses);
         }
         return statResponse;
     }
@@ -89,7 +90,9 @@ public class CriterionHandler {
      */
     private SearchCriterion handleLastNameCriterion(LastNameCriterion criterion) {
         CustomerService customerService = new CustomerService();
-        List<SearchResult> searchResults = customerService.findAllByLastName(criterion.getLastName());
+        List<Customer> customers = customerService.findAllByLastName(criterion.getLastName());
+        List<SearchResult> searchResults = new ArrayList<>();
+        customers.forEach(customer -> searchResults.add(CustomerToSearchResultAdapter.valueOf(customer)));
         return new SearchCriterion(criterion, searchResults);
     }
 
@@ -102,8 +105,11 @@ public class CriterionHandler {
     private SearchCriterion handleProductNameCriterion(ProductNameCriterion criterion) {
         ProductService productService = new ProductService();
         Product product = productService.findByProductName(criterion.getProductName());
+
         PurchaseService purchaseService = new PurchaseService();
-        List<SearchResult> searchResults = purchaseService.findAllCustomersByProductNameAndMinTimes(product, criterion.getMinTimes());
+        Map<Customer, Long> customerLongMap = purchaseService.findAllGoodCustomers(product, criterion.getMinTimes());
+        List<SearchResult> searchResults = new ArrayList<>();
+        customerLongMap.forEach((customer, value) -> searchResults.add(CustomerToSearchResultAdapter.valueOf(customer)));
         return new SearchCriterion(criterion, searchResults);
     }
 
@@ -114,21 +120,43 @@ public class CriterionHandler {
      * @return ответ запроса
      */
     private SearchCriterion handleProductNameCriterion(ProductExpensesCriterion criterion) {
+        int minExpenses = criterion.getMinExpenses();
+        int maxExpenses = criterion.getMaxExpenses();
         PurchaseService purchaseService = new PurchaseService();
-        List<SearchResult> searchResults = purchaseService.findAllCustomersWithPurchaseFiltering(criterion.getMinExpenses(), criterion.getMaxExpenses());
+        Map<Customer, Long> customerLongMap = purchaseService.findAllCustomersWithPurchaseFiltering(minExpenses, maxExpenses);
+        List<SearchResult> searchResults = new ArrayList<>();
+        customerLongMap.forEach((customer, value) -> searchResults.add(CustomerToSearchResultAdapter.valueOf(customer)));
         return new SearchCriterion(criterion, searchResults);
     }
 
     /**
-     * Метод обрабатывает критерий типа badCustomers
+     * Метод обрабатывает критерий типа badCustomers(поиск неактивных покупателей)
      *
      * @param criterion обрабатываемый критерий
      * @return ответ запроса
      */
     private SearchCriterion handleBadCustomersCriterion(BadCustomersCriterion criterion) {
         PurchaseService purchaseService = new PurchaseService();
-        List<SearchResult> searchResults = purchaseService.findBadCustomers(criterion.getBadCustomers());
+        LinkedHashMap<Customer, Long> customerLongSortedMap = purchaseService.findCustomersToNumberPurchases();
+        List<SearchResult> searchResults = customerLongSortedMapToSearchResult(customerLongSortedMap, criterion.getBadCustomers());
         return new SearchCriterion(criterion, searchResults);
+    }
+
+    /**
+     * Метод превращает мапу неактивных покупателей с их товарами в список типа  List<SearchResult>
+     * и обрезает до нужного количества
+     *
+     * @param badCustomers          количество покупателей
+     * @param customerLongSortedMap мапа покупателей с их товарами
+     * @return обрезанный список типа  List<SearchResult>
+     */
+    private List<SearchResult> customerLongSortedMapToSearchResult(LinkedHashMap<Customer, Long> customerLongSortedMap, int badCustomers) {
+        List<SearchResult> searchResults = new ArrayList<>();
+        customerLongSortedMap.entrySet()
+                .stream()
+                .limit(badCustomers)
+                .forEach(x -> searchResults.add(CustomerToSearchResultAdapter.valueOf(x.getKey())));
+        return searchResults;
     }
 
     /**
